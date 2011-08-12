@@ -154,7 +154,6 @@ namespace DSProcessManager
         private Label label1;
         private PictureBox pictureBoxStatus;
         private TabPage tabPage2;
-        private NotifyIcon notifyIcon1;
         private Timer timerStatus;
         private Label label3;
         private Button buttonBan;
@@ -254,7 +253,6 @@ namespace DSProcessManager
             this.colOut10MinDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIPDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.networkInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.timerStatus = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -710,13 +708,6 @@ namespace DSProcessManager
             this.networkInfoBindingSource.DataMember = "NetworkInfo";
             this.networkInfoBindingSource.DataSource = this.tableData;
             // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
-            // 
             // timerStatus
             // 
             this.timerStatus.Enabled = true;
@@ -776,7 +767,6 @@ namespace DSProcessManager
             this.Text = "DS Process Manager";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1259,9 +1249,6 @@ namespace DSProcessManager
             labelStatusMemory.Text = String.Format("Mem\n{0} MB", memory);
             textBoxRestartCount.Text = flServerRestartCount.ToString();
 
-            notifyIcon1.Text = String.Format("FLServer\nStatus: {0}\nLoad: {1} msec\nMemory: {2} MB",
-                textBoxStatus.Text, load, memory);
-
             // Update the load graph. Each pixel represents 10 seconds.
             if (this.Visible && pictureBoxStatus.Size.Width > 0)
             {
@@ -1731,22 +1718,8 @@ namespace DSProcessManager
             new Config().ShowDialog(this);
         }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized)
-                WindowState = FormWindowState.Normal;
-            Show();
-        }
-
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            if (FormWindowState.Minimized == WindowState)
-                Hide();
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            notifyIcon1.Visible = false;
             flhookCommsCmdrThread.Abort();
             flHookLstr.Dispose();
         }
