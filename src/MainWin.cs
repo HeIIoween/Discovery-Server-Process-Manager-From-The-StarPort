@@ -190,6 +190,7 @@ namespace DSProcessManager
         private DataGridViewTextBoxColumn colIPDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private Timer timerHTML;
 
         FLHookEventSocket flHookLstr;
 
@@ -259,6 +260,7 @@ namespace DSProcessManager
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timerHTML = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayers)).BeginInit();
@@ -277,9 +279,9 @@ namespace DSProcessManager
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -316,9 +318,9 @@ namespace DSProcessManager
             // 
             // richTextBoxLog
             // 
-            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxLog.Location = new System.Drawing.Point(5, 236);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.Size = new System.Drawing.Size(403, 24);
@@ -336,8 +338,8 @@ namespace DSProcessManager
             // 
             // pictureBoxPlayers
             // 
-            this.pictureBoxPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxPlayers.Location = new System.Drawing.Point(57, 41);
             this.pictureBoxPlayers.Name = "pictureBoxPlayers";
             this.pictureBoxPlayers.Size = new System.Drawing.Size(351, 50);
@@ -373,8 +375,8 @@ namespace DSProcessManager
             // 
             // pictureBoxMemory
             // 
-            this.pictureBoxMemory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxMemory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxMemory.Location = new System.Drawing.Point(57, 180);
             this.pictureBoxMemory.Name = "pictureBoxMemory";
             this.pictureBoxMemory.Size = new System.Drawing.Size(351, 50);
@@ -383,8 +385,8 @@ namespace DSProcessManager
             // 
             // pictureBoxNPC
             // 
-            this.pictureBoxNPC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxNPC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxNPC.Location = new System.Drawing.Point(57, 153);
             this.pictureBoxNPC.Name = "pictureBoxNPC";
             this.pictureBoxNPC.Size = new System.Drawing.Size(351, 21);
@@ -436,8 +438,8 @@ namespace DSProcessManager
             // 
             // pictureBoxStatus
             // 
-            this.pictureBoxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxStatus.Location = new System.Drawing.Point(57, 97);
             this.pictureBoxStatus.Name = "pictureBoxStatus";
             this.pictureBoxStatus.Size = new System.Drawing.Size(351, 50);
@@ -462,9 +464,9 @@ namespace DSProcessManager
             this.dataGridViewPlayers.AllowUserToAddRows = false;
             this.dataGridViewPlayers.AllowUserToDeleteRows = false;
             this.dataGridViewPlayers.AllowUserToOrderColumns = true;
-            this.dataGridViewPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewPlayers.AutoGenerateColumns = false;
             this.dataGridViewPlayers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPlayers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -611,9 +613,9 @@ namespace DSProcessManager
             // 
             // richTextBoxEvents
             // 
-            this.richTextBoxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEvents.Location = new System.Drawing.Point(6, 6);
             this.richTextBoxEvents.Name = "richTextBoxEvents";
             this.richTextBoxEvents.Size = new System.Drawing.Size(408, 254);
@@ -635,9 +637,9 @@ namespace DSProcessManager
             this.dataGridViewNetworkInfo.AllowUserToAddRows = false;
             this.dataGridViewNetworkInfo.AllowUserToDeleteRows = false;
             this.dataGridViewNetworkInfo.AllowUserToOrderColumns = true;
-            this.dataGridViewNetworkInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewNetworkInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewNetworkInfo.AutoGenerateColumns = false;
             this.dataGridViewNetworkInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewNetworkInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -755,6 +757,10 @@ namespace DSProcessManager
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 90;
             // 
+            // timerHTML
+            // 
+            this.timerHTML.Tick += new System.EventHandler(this.timerHTML_Tick);
+            // 
             // MainWin
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -765,8 +771,8 @@ namespace DSProcessManager
             this.MinimumSize = new System.Drawing.Size(460, 350);
             this.Name = "MainWin";
             this.Text = "DS Process Manager";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1446,6 +1452,9 @@ namespace DSProcessManager
                     }
                     break;
             }
+
+            timerHTML.Interval = AppSettings.Default.setHTMLInterval * 60 * 1000;
+            timerHTML.Enabled = AppSettings.Default.setEnableHTML;
         }
 
         /// <summary>
@@ -2065,6 +2074,59 @@ namespace DSProcessManager
                     AddLog("title: " + window.Value);
             }
             AddLog("Dumping window titles complete");
+        }
+
+        private void timerHTML_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                string header = File.ReadAllText("htmloutput\\playersonlineheader.htt");
+                string footer = File.ReadAllText("htmloutput\\playersonlinefooter.htt");
+                string row = File.ReadAllText("htmloutput\\playersonlinelist.htt");
+
+                List<FLHookSocket.PlayerInfo> players = new List<FLHookSocket.PlayerInfo>();
+                lock (flHookPlayerInfoList)
+                {
+                    foreach (var playerInfo in flHookPlayerInfoList)
+                    {
+                        players.Add(playerInfo.Value);
+                    }
+                }
+
+                StringBuilder final = new StringBuilder(header.Length + footer.Length + ((row.Length+30) * players.Count));
+
+                final.Append(header);
+                foreach (var player in players)
+                {
+                    final.Append(BuildPlayerRow(player, row));
+                }
+
+                footer = footer.Replace("{NumPlayers}", players.Count.ToString());
+                footer = footer.Replace("{NumPlayersUpdate}", DateTime.Now.ToString());
+                final.Append(footer);
+
+                File.WriteAllText(Path.Combine(AppSettings.Default.setHTMLDir, "onlineplayers.html"), final.ToString());
+            }
+            catch (Exception ex)
+            {
+                AddLog("Error while creating html-player-list! " + ex.Message);
+            }
+        }
+
+        private string BuildPlayerRow(FLHookSocket.PlayerInfo player, string row)
+        {
+            row = row.Replace("{ID}", player.id.ToString());
+            row = row.Replace("{Charname}", player.charname);
+            row = row.Replace("{System}", player.system);
+            row = row.Replace("{Ping}", player.ping.ToString());
+            row = row.Replace("{Fluct}", player.ping_fluct.ToString());
+            row = row.Replace("{Lag}", player.lag.ToString());
+            row = row.Replace("{Loss}", player.loss.ToString());
+            row = row.Replace("{Saturation}", player.saturation.ToString());
+            row = row.Replace("{TxQueue}", player.txqueue.ToString());
+            row = row.Replace("{IP}", player.ip);
+
+            return row;
         }
 	}
 }

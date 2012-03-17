@@ -1,0 +1,12 @@
+			<TR>
+				<TD CLASS="ID">{ID}</TD>
+				<TD CLASS="Charname">{Charname}</TD>
+				<TD CLASS="System">{System}</TD>
+				<TD CLASS="Ping">{Ping}</TD>
+				<TD CLASS="Fluct">{Fluct}</TD>
+        <TD CLASS="Lag">{Lag}</TD>
+        <TD CLASS="Loss">{Loss}</TD>
+				<TD CLASS="Saturation">{Saturation}</TD>
+				<TD CLASS="TxQueue">{TxQueue}</TD>
+				<TD CLASS="IP">{IP}</TD>
+			</TR>

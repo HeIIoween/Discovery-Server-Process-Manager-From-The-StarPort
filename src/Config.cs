@@ -47,6 +47,9 @@ namespace DSProcessManager
                 numericUpDown8.Value = AppSettings.Default.setNetHighPort;
                 checkBox3.Checked = AppSettings.Default.setEnableNetMonitor;
                 numericUpDown9.Value = AppSettings.Default.setDebug;
+                checkBox4.Checked = AppSettings.Default.setEnableHTML;
+                textBox9.Text = AppSettings.Default.setHTMLDir;
+                numericUpDown10.Value = AppSettings.Default.setHTMLInterval;
 
                 long aff = AppSettings.Default.setAffinity;
                 checkboxes = new CheckBox[Environment.ProcessorCount];
@@ -93,6 +96,9 @@ namespace DSProcessManager
                 AppSettings.Default.setNetHighPort = numericUpDown8.Value;
                 AppSettings.Default.setEnableNetMonitor = checkBox3.Checked;
                 AppSettings.Default.setDebug = numericUpDown9.Value;
+                AppSettings.Default.setEnableHTML = checkBox4.Checked;
+                AppSettings.Default.setHTMLDir = textBox9.Text;
+                AppSettings.Default.setHTMLInterval = (int)numericUpDown10.Value;
 
                 long aff = 0;
                 for (int i = 0; i < checkboxes.Length; i++)

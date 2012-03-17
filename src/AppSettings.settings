@@ -89,5 +89,14 @@
     <Setting Name="setAffinity" Type="System.Int64" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="setEnableHTML" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="setHTMLDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\</Value>
+    </Setting>
+    <Setting Name="setHTMLInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

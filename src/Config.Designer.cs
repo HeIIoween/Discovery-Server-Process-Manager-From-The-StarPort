@@ -67,6 +67,7 @@
             this.buttonSetPath = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label28 = new System.Windows.Forms.Label();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
@@ -98,10 +99,16 @@
             this.label20 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.numericUpDown10 = new System.Windows.Forms.NumericUpDown();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -124,12 +131,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -552,6 +562,13 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "FLServer Affinity";
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 20);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(393, 74);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.label28);
@@ -918,6 +935,48 @@
             this.textBox6.Size = new System.Drawing.Size(343, 20);
             this.textBox6.TabIndex = 86;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label31);
+            this.tabPage3.Controls.Add(this.label30);
+            this.tabPage3.Controls.Add(this.numericUpDown10);
+            this.tabPage3.Controls.Add(this.label29);
+            this.tabPage3.Controls.Add(this.textBox9);
+            this.tabPage3.Controls.Add(this.checkBox4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(420, 447);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Playerlist HTML Output";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 32);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(53, 13);
+            this.label29.TabIndex = 92;
+            this.label29.Text = "Output dir";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(65, 29);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(349, 20);
+            this.textBox9.TabIndex = 91;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 6);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(127, 17);
+            this.checkBox4.TabIndex = 0;
+            this.checkBox4.Text = "Enable HTML-Output";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -945,17 +1004,35 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // flowLayoutPanel1
+            // numericUpDown10
             // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 20);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(393, 74);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.numericUpDown10.Location = new System.Drawing.Point(76, 55);
+            this.numericUpDown10.Name = "numericUpDown10";
+            this.numericUpDown10.Size = new System.Drawing.Size(53, 20);
+            this.numericUpDown10.TabIndex = 93;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 57);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(64, 13);
+            this.label30.TabIndex = 94;
+            this.label30.Text = "Update time";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(135, 57);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(43, 13);
+            this.label31.TabIndex = 95;
+            this.label31.Text = "minutes";
             // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(454, 523);
+            this.ClientSize = new System.Drawing.Size(454, 527);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.buttonOK);
@@ -997,6 +1074,9 @@
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1076,6 +1156,13 @@
         private System.Windows.Forms.NumericUpDown numericUpDown9;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.NumericUpDown numericUpDown10;
 
     }
 }
