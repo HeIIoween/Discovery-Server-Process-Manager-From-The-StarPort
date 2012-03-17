@@ -144,6 +144,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TableData.xsd</DependentUpon>
     </Compile>
+    <Content Include="htmloutput\GAMEDATA_ships.txt" />
+    <Content Include="htmloutput\GAMEDATA_systems.txt" />
     <Content Include="htmloutput\playersonlinetable.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

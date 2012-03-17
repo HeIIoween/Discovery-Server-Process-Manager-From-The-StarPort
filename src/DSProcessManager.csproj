@@ -94,6 +94,9 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -109,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <Content Include="htmloutput\GAMEDATA_ships.txt" />
+    <Content Include="htmloutput\GAMEDATA_systems.txt" />
     <Content Include="htmloutput\playersonlinetable.css" />
     <Compile Include="AdaptorSniffer.cs" />
     <Compile Include="AssemblyInfo.cs">

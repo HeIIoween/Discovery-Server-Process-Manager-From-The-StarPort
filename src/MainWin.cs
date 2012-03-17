@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 
 namespace DSProcessManager
 {
@@ -1054,6 +1055,62 @@ namespace DSProcessManager
         }
 
         /// <summary>
+        /// Execute uptime restart if needed. Will send warning messages too.
+        /// </summary>
+        void ExecuteUptimeRestartIfNecessary()
+        {
+            DateTime now = DateTime.Now;
+
+            // If it is approaching uptime restart time notify players.
+            if (AppSettings.Default.setUptimeRestart)
+            {
+                var uptime = DateTime.Now.Subtract(FindFLServerProcess().StartTime);
+                var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0) - uptime;
+
+                if (uptime.TotalHours == AppSettings.Default.setUptimeRestartHours && dailyRestartState != DAILY_RESTART_STATES.RESTARTING)
+                {
+                    dailyRestartState = DAILY_RESTART_STATES.RESTARTING;
+                    TryToStopServer("Killing server for uptime restart");
+                    return;
+                }
+                else if (left < new TimeSpan(0, 10, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_10MINS)
+                {
+                    AddLog(String.Format("Uptime restart in {0} mins", 10));
+                    dailyRestartState = DAILY_RESTART_STATES.WARNING_10MINS;
+                    if (AppSettings.Default.setDailyRestartWarning10min.Length > 0)
+                    {
+                        using (FLHookSocket flCmd = new FLHookSocket())
+                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning10min);
+                    }
+                }
+                else if (left < new TimeSpan(0, 5, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_5MINS)
+                {
+                    AddLog(String.Format("Uptime restart in {0} mins", 5));
+                    dailyRestartState = DAILY_RESTART_STATES.WARNING_5MINS;
+                    if (AppSettings.Default.setDailyRestartWarning5min.Length > 0)
+                    {
+                        using (FLHookSocket flCmd = new FLHookSocket())
+                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning5min);
+                    }
+                }
+                else if (left < new TimeSpan(0, 1, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_1MIN)
+                {
+                    AddLog(String.Format("Uptime restart in 1 min"));
+                    dailyRestartState = DAILY_RESTART_STATES.WARNING_1MIN;
+                    if (AppSettings.Default.setDailyRestartWarning1min.Length > 0)
+                    {
+                        using (FLHookSocket flCmd = new FLHookSocket())
+                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning1min);
+                    }
+                }
+                else
+                {
+                    dailyRestartState = DAILY_RESTART_STATES.IDLE;
+                }
+            }
+        }
+
+        /// <summary>
         /// Execute daily restart if needed. Will send warning messages too.
         /// </summary>
         void ExecuteDailyRestartIfNecessary()
@@ -1436,6 +1493,7 @@ namespace DSProcessManager
 
                         // Restart for maintenance.
                         ExecuteDailyRestartIfNecessary();
+                        ExecuteUptimeRestartIfNecessary();
                     }
 
                     break;
@@ -1457,7 +1515,7 @@ namespace DSProcessManager
             timerHTML.Enabled = AppSettings.Default.setEnableHTML;
         }
 
-        /// <summary>
+	    /// <summary>
         /// Start the server. This will do nothing if a start/stop server operation is in progress.
         /// </summary>
         private void TryToStartServer()
@@ -1795,7 +1853,7 @@ namespace DSProcessManager
                     {
                         tableData.PlayerInfo.AddPlayerInfoRow(kvp.Key,
                             kvp.Value.charname, kvp.Value.ip, kvp.Value.ping, kvp.Value.system,
-                            kvp.Value.loss, kvp.Value.lag, kvp.Value.ping_fluct, kvp.Value.saturation, kvp.Value.txqueue);
+                            kvp.Value.loss, kvp.Value.lag, kvp.Value.ping_fluct, kvp.Value.saturation, kvp.Value.txqueue, kvp.Value.level, kvp.Value.ship);
                     }
                     else
                     {
@@ -1808,6 +1866,8 @@ namespace DSProcessManager
                         row.ColPingFluct = kvp.Value.ping_fluct;
                         row.ColSaturation = kvp.Value.saturation;
                         row.ColTxQueue = kvp.Value.txqueue;
+                        row.ColLevel = kvp.Value.level;
+                        row.ColShip = kvp.Value.ship;
                     }
                 }
 
@@ -2083,6 +2143,8 @@ namespace DSProcessManager
                 string header = File.ReadAllText("htmloutput\\playersonlineheader.htt");
                 string footer = File.ReadAllText("htmloutput\\playersonlinefooter.htt");
                 string row = File.ReadAllText("htmloutput\\playersonlinelist.htt");
+                var systems = ParseIoncrossList("htmloutput\\GAMEDATA_systems.txt");
+                var ships = ParseIoncrossList("htmloutput\\GAMEDATA_ships.txt");
 
                 List<FLHookSocket.PlayerInfo> players = new List<FLHookSocket.PlayerInfo>();
                 lock (flHookPlayerInfoList)
@@ -2098,7 +2160,7 @@ namespace DSProcessManager
                 final.Append(header);
                 foreach (var player in players)
                 {
-                    final.Append(BuildPlayerRow(player, row));
+                    final.Append(BuildPlayerRow(player, row, systems, ships));
                 }
 
                 footer = footer.Replace("{NumPlayers}", players.Count.ToString());
@@ -2113,17 +2175,26 @@ namespace DSProcessManager
             }
         }
 
-        private string BuildPlayerRow(FLHookSocket.PlayerInfo player, string row)
+        private Dictionary<string, string> ParseIoncrossList(string file)
+        {
+            return File.ReadAllLines(file).Select(l => l.Split(new[] {'='}, 2))
+                                                .Where(l => l.Length == 2)
+                                                    .ToDictionary(l => l[0], l => l[1]);
+        }
+
+        private string BuildPlayerRow(FLHookSocket.PlayerInfo player, string row, Dictionary<string, string> systems, Dictionary<string, string> ships)
         {
             row = row.Replace("{ID}", player.id.ToString());
             row = row.Replace("{Charname}", player.charname);
-            row = row.Replace("{System}", player.system);
+            row = row.Replace("{System}", systems[player.system]);
             row = row.Replace("{Ping}", player.ping.ToString());
             row = row.Replace("{Fluct}", player.ping_fluct.ToString());
             row = row.Replace("{Lag}", player.lag.ToString());
             row = row.Replace("{Loss}", player.loss.ToString());
             row = row.Replace("{Saturation}", player.saturation.ToString());
             row = row.Replace("{TxQueue}", player.txqueue.ToString());
+            row = row.Replace("{Level}", player.level.ToString());
+            row = row.Replace("{Ship}", ships[player.ship]);
             row = row.Replace("{IP}", player.ip);
 
             return row;

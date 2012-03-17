@@ -98,5 +98,20 @@
     <Setting Name="setHTMLInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="setUptimeRestart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="setUptimeRestartWarning10min" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Notice to Space Farers : Long range probes indicates approaching ION storms in 10 minutes.</Value>
+    </Setting>
+    <Setting Name="setUptimeRestartWarning5min" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sirius Meteorological Institute, Late Warning department leader, The Right Honourable Fellow Hoodlum, Esq., confirms approaching ION storm will reach Sirius in 5 minutes. Proceed to nearest docking facility at best speed. </Value>
+    </Setting>
+    <Setting Name="setUptimeRestartWarning1min" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Outer rim Sirius research stations reports ION storms will hit in 1 minute. All vessels are advised to dock now. Expected duration of system wide darkening to be 12 minutes.</Value>
+    </Setting>
+    <Setting Name="setUptimeRestartHours" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

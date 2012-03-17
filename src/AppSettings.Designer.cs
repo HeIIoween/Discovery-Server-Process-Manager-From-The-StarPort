@@ -411,5 +411,70 @@ namespace DSProcessManager {
                 this["setHTMLInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool setUptimeRestart {
+            get {
+                return ((bool)(this["setUptimeRestart"]));
+            }
+            set {
+                this["setUptimeRestart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Notice to Space Farers : Long range probes indicates approaching ION storms in 10" +
+            " minutes.")]
+        public string setUptimeRestartWarning10min {
+            get {
+                return ((string)(this["setUptimeRestartWarning10min"]));
+            }
+            set {
+                this["setUptimeRestartWarning10min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sirius Meteorological Institute, Late Warning department leader, The Right Honour" +
+            "able Fellow Hoodlum, Esq., confirms approaching ION storm will reach Sirius in 5" +
+            " minutes. Proceed to nearest docking facility at best speed. ")]
+        public string setUptimeRestartWarning5min {
+            get {
+                return ((string)(this["setUptimeRestartWarning5min"]));
+            }
+            set {
+                this["setUptimeRestartWarning5min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Outer rim Sirius research stations reports ION storms will hit in 1 minute. All v" +
+            "essels are advised to dock now. Expected duration of system wide darkening to be" +
+            " 12 minutes.")]
+        public string setUptimeRestartWarning1min {
+            get {
+                return ((string)(this["setUptimeRestartWarning1min"]));
+            }
+            set {
+                this["setUptimeRestartWarning1min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int setUptimeRestartHours {
+            get {
+                return ((int)(this["setUptimeRestartHours"]));
+            }
+            set {
+                this["setUptimeRestartHours"] = value;
+            }
+        }
     }
 }

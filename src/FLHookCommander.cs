@@ -254,6 +254,8 @@ namespace DSProcessManager
             public int ping_fluct;
             public int saturation;
             public int txqueue;
+            public int level;
+            public string ship;
         }
 
         /// <summary>
@@ -299,6 +301,8 @@ namespace DSProcessManager
                         info.ip = values[2];
                         info.ping = Convert.ToInt32(values[4]);
                         info.system = values[6];
+                        info.level = Convert.ToInt32(values[7]);
+                        info.ship = values[8];
                         playerInfoList.Add(info.id, info);
                     }
                 }
