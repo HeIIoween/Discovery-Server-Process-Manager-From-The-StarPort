@@ -197,7 +197,7 @@ namespace DSProcessManager
         /// Request server info from flhook.
         /// </summary>
         /// <returns>True if successful otherwise false.</returns>
-        public bool CmdServerInfo(out int load, out bool npcSpawnEnabled, string upTime)
+        public bool CmdServerInfo(out int load, out bool npcSpawnEnabled, out string upTime)
         {
             LastCmdError = "";
 

@@ -24,6 +24,11 @@ namespace DSProcessManager
         DateTime flServerStartTime = DateTime.Now;
 
         /// <summary>
+        /// The flservers uptime
+        /// </summary>
+        TimeSpan flServerUptime = TimeSpan.Zero;
+
+        /// <summary>
         /// The number of restarts
         /// </summary>
         int flServerRestartCount = 0;
@@ -849,7 +854,14 @@ namespace DSProcessManager
                     int load = 0;
                     bool npcSpawnEnabled = false;
                     string upTime = "-";
-                    bool connected = flHookCmdr.CmdServerInfo(out load, out npcSpawnEnabled, upTime);
+                    bool connected = flHookCmdr.CmdServerInfo(out load, out npcSpawnEnabled, out upTime);
+
+                    if (connected)
+                    {
+                        var upTimeParts = upTime.Split(':').Select(p => int.Parse(p)).ToArray();
+                        flServerUptime = new TimeSpan(upTimeParts[0], upTimeParts[1], upTimeParts[2], upTimeParts[3]);
+                    }
+
                     lock (locker)
                     {
                         flhookLoad = load;
@@ -1069,13 +1081,12 @@ namespace DSProcessManager
             // If it is approaching uptime restart time notify players.
             if (AppSettings.Default.setUptimeRestart)
             {
-                var uptime = DateTime.Now.Subtract(FindFLServerProcess().StartTime);
-                var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0) - uptime;
+                var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0) - flServerUptime;
 
-                if(uptime.TotalHours < 1)
+                if (flServerUptime.TotalHours < 1)
                     return;
 
-                if (uptime.TotalHours == AppSettings.Default.setUptimeRestartHours && uptimeRestartState != AUTO_RESTART_STATES.RESTARTING)
+                if (flServerUptime.TotalHours == AppSettings.Default.setUptimeRestartHours && uptimeRestartState != AUTO_RESTART_STATES.RESTARTING)
                 {
                     uptimeRestartState = AUTO_RESTART_STATES.RESTARTING;
                     TryToStopServer("Killing server for uptime restart");
