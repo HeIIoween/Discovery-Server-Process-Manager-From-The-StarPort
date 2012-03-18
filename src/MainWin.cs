@@ -84,7 +84,7 @@ namespace DSProcessManager
         /// </summary>
         FLSERVER_STATES flServerState = FLSERVER_STATES.DETERMINING_STATUS;
 
-        enum DAILY_RESTART_STATES
+        enum AUTO_RESTART_STATES
         {
             IDLE,
             WARNING_10MINS,
@@ -96,7 +96,12 @@ namespace DSProcessManager
         /// <summary>
         /// Current dialy restart state.
         /// </summary>
-        DAILY_RESTART_STATES dailyRestartState = DAILY_RESTART_STATES.WARNING_10MINS;
+        AUTO_RESTART_STATES dailyRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
+
+        /// <summary>
+        /// Current uptime restart state.
+        /// </summary>
+        AUTO_RESTART_STATES uptimeRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
 
         /// <summary>
         /// Object used to synchronise data access between main and gui threads.
@@ -796,7 +801,7 @@ namespace DSProcessManager
 		#endregion
 
 		[STAThread]
-		static void Main() 
+		static void Main()
 		{
             bool firstInstance;
             System.Threading.Mutex mutex = new System.Threading.Mutex(false, "Local\\FLProcessManagerSIOJOQIWHIBKAJBSJHBS", out firstInstance);
@@ -1067,36 +1072,39 @@ namespace DSProcessManager
                 var uptime = DateTime.Now.Subtract(FindFLServerProcess().StartTime);
                 var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0) - uptime;
 
-                if (uptime.TotalHours == AppSettings.Default.setUptimeRestartHours && dailyRestartState != DAILY_RESTART_STATES.RESTARTING)
+                if(uptime.TotalHours < 1)
+                    return;
+
+                if (uptime.TotalHours == AppSettings.Default.setUptimeRestartHours && uptimeRestartState != AUTO_RESTART_STATES.RESTARTING)
                 {
-                    dailyRestartState = DAILY_RESTART_STATES.RESTARTING;
+                    uptimeRestartState = AUTO_RESTART_STATES.RESTARTING;
                     TryToStopServer("Killing server for uptime restart");
                     return;
                 }
-                else if (left < new TimeSpan(0, 10, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_10MINS)
+                else if (left < new TimeSpan(0, 10, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_10MINS)
                 {
                     AddLog(String.Format("Uptime restart in {0} mins", 10));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_10MINS;
+                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
                     if (AppSettings.Default.setDailyRestartWarning10min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
                             flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning10min);
                     }
                 }
-                else if (left < new TimeSpan(0, 5, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_5MINS)
+                else if (left < new TimeSpan(0, 5, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_5MINS)
                 {
                     AddLog(String.Format("Uptime restart in {0} mins", 5));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_5MINS;
+                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_5MINS;
                     if (AppSettings.Default.setDailyRestartWarning5min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
                             flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning5min);
                     }
                 }
-                else if (left < new TimeSpan(0, 1, 0) && dailyRestartState != DAILY_RESTART_STATES.WARNING_1MIN)
+                else if (left < new TimeSpan(0, 1, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_1MIN)
                 {
                     AddLog(String.Format("Uptime restart in 1 min"));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_1MIN;
+                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_1MIN;
                     if (AppSettings.Default.setDailyRestartWarning1min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
@@ -1105,7 +1113,7 @@ namespace DSProcessManager
                 }
                 else
                 {
-                    dailyRestartState = DAILY_RESTART_STATES.IDLE;
+                    dailyRestartState = AUTO_RESTART_STATES.IDLE;
                 }
             }
         }
@@ -1122,36 +1130,36 @@ namespace DSProcessManager
             {
                 DateTime restartTime = new DateTime(now.Year, now.Month, now.Day, 0, 0, 55).AddHours(AppSettings.Default.setRestartTime);
                 int minsToRestart = (int)restartTime.Subtract(now).TotalMinutes;
-                if (minsToRestart == 0 && dailyRestartState != DAILY_RESTART_STATES.RESTARTING)
+                if (minsToRestart == 0 && dailyRestartState != AUTO_RESTART_STATES.RESTARTING)
                 {
-                    dailyRestartState = DAILY_RESTART_STATES.RESTARTING;
+                    dailyRestartState = AUTO_RESTART_STATES.RESTARTING;
                     TryToStopServer("Killing server for daily restart");
                     return;
                 }
-                else if (minsToRestart == 10 && dailyRestartState != DAILY_RESTART_STATES.WARNING_10MINS)
+                else if (minsToRestart == 10 && dailyRestartState != AUTO_RESTART_STATES.WARNING_10MINS)
                 {
                     AddLog(String.Format("Daily restart in {0} mins", minsToRestart));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_10MINS;
+                    dailyRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
                     if (AppSettings.Default.setDailyRestartWarning10min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
                             flCmd.CmdMsgU(AppSettings.Default.setDailyRestartWarning10min);
                     }
                 }
-                else if (minsToRestart == 5 && dailyRestartState != DAILY_RESTART_STATES.WARNING_5MINS)
+                else if (minsToRestart == 5 && dailyRestartState != AUTO_RESTART_STATES.WARNING_5MINS)
                 {
                     AddLog(String.Format("Daily restart in {0} mins", minsToRestart));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_5MINS;
+                    dailyRestartState = AUTO_RESTART_STATES.WARNING_5MINS;
                     if (AppSettings.Default.setDailyRestartWarning5min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
                             flCmd.CmdMsgU(AppSettings.Default.setDailyRestartWarning5min);
                     }
                 }
-                else if (minsToRestart == 1 && dailyRestartState != DAILY_RESTART_STATES.WARNING_1MIN)
+                else if (minsToRestart == 1 && dailyRestartState != AUTO_RESTART_STATES.WARNING_1MIN)
                 {
                     AddLog(String.Format("Daily restart in 1 min"));
-                    dailyRestartState = DAILY_RESTART_STATES.WARNING_1MIN;
+                    dailyRestartState = AUTO_RESTART_STATES.WARNING_1MIN;
                     if (AppSettings.Default.setDailyRestartWarning1min.Length > 0)
                     {
                         using (FLHookSocket flCmd = new FLHookSocket())
@@ -1160,7 +1168,7 @@ namespace DSProcessManager
                 }
                 else if (minsToRestart < 0 || minsToRestart > 10)
                 {
-                    dailyRestartState = DAILY_RESTART_STATES.IDLE;
+                    dailyRestartState = AUTO_RESTART_STATES.IDLE;
                 }
             }
         }
@@ -2179,14 +2187,15 @@ namespace DSProcessManager
         {
             return File.ReadAllLines(file).Select(l => l.Split(new[] {'='}, 2))
                                                 .Where(l => l.Length == 2)
-                                                    .ToDictionary(l => l[0], l => l[1]);
+                                                    .ToDictionary(l => l[0].Trim(), l => l[1].Trim());
         }
 
         private string BuildPlayerRow(FLHookSocket.PlayerInfo player, string row, Dictionary<string, string> systems, Dictionary<string, string> ships)
         {
             row = row.Replace("{ID}", player.id.ToString());
             row = row.Replace("{Charname}", player.charname);
-            row = row.Replace("{System}", systems[player.system]);
+            if (player.system != null && systems.ContainsKey(player.system)) row = row.Replace("{System}", systems[player.system]);
+            else row = row.Replace("{System}", player.system);
             row = row.Replace("{Ping}", player.ping.ToString());
             row = row.Replace("{Fluct}", player.ping_fluct.ToString());
             row = row.Replace("{Lag}", player.lag.ToString());
@@ -2194,7 +2203,8 @@ namespace DSProcessManager
             row = row.Replace("{Saturation}", player.saturation.ToString());
             row = row.Replace("{TxQueue}", player.txqueue.ToString());
             row = row.Replace("{Level}", player.level.ToString());
-            row = row.Replace("{Ship}", ships[player.ship]);
+            if (player.ship != null && ships.ContainsKey(player.ship)) row = row.Replace("{Ship}", ships[player.ship]);
+            else row = row.Replace("{Ship}", player.ship);
             row = row.Replace("{IP}", player.ip);
 
             return row;

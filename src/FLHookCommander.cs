@@ -301,8 +301,10 @@ namespace DSProcessManager
                         info.ip = values[2];
                         info.ping = Convert.ToInt32(values[4]);
                         info.system = values[6];
-                        info.level = Convert.ToInt32(values[7]);
-                        info.ship = values[8];
+                        if(values.Length >= 8)
+                            info.level = Convert.ToInt32(values[7]);
+                        if (values.Length >= 9)
+                            info.ship = values[8];
                         playerInfoList.Add(info.id, info);
                     }
                 }
