@@ -2152,7 +2152,9 @@ namespace DSProcessManager
                 string footer = File.ReadAllText("htmloutput\\playersonlinefooter.htt");
                 string row = File.ReadAllText("htmloutput\\playersonlinelist.htt");
                 var systems = ParseIoncrossList("htmloutput\\GAMEDATA_systems.txt");
-                var ships = ParseIoncrossList("htmloutput\\GAMEDATA_ships.txt");
+                var ships = ParseIoncrossList("htmloutput\\GAMEDATA_ships.txt")
+                                .Where(s => s.Value.Contains(","))
+                                    .ToDictionary(s => s.Key, s => s.Value.Split(',')[1].Trim());
 
                 List<FLHookSocket.PlayerInfo> players = new List<FLHookSocket.PlayerInfo>();
                 lock (flHookPlayerInfoList)
