@@ -1076,52 +1076,57 @@ namespace DSProcessManager
         /// </summary>
         void ExecuteUptimeRestartIfNecessary()
         {
-            DateTime now = DateTime.Now;
-
             // If it is approaching uptime restart time notify players.
             if (AppSettings.Default.setUptimeRestart)
             {
-                var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0) - flServerUptime;
+                var left = new TimeSpan(AppSettings.Default.setUptimeRestartHours, 0, 0).Subtract(flServerUptime);                
 
-                if (flServerUptime.TotalHours < 1)
+                if (flServerUptime.TotalMinutes < 50)
                     return;
 
-                if (flServerUptime.TotalHours == AppSettings.Default.setUptimeRestartHours && uptimeRestartState != AUTO_RESTART_STATES.RESTARTING)
+                if (left <= new TimeSpan(0, 0, 0) && uptimeRestartState != AUTO_RESTART_STATES.RESTARTING)
                 {
                     uptimeRestartState = AUTO_RESTART_STATES.RESTARTING;
                     TryToStopServer("Killing server for uptime restart");
                     return;
                 }
-                else if (left < new TimeSpan(0, 10, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_10MINS)
+                else if (left < new TimeSpan(0, 1, 0))
                 {
-                    AddLog(String.Format("Uptime restart in {0} mins", 10));
-                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
-                    if (AppSettings.Default.setDailyRestartWarning10min.Length > 0)
-                    {
-                        using (FLHookSocket flCmd = new FLHookSocket())
-                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning10min);
+                    if(uptimeRestartState != AUTO_RESTART_STATES.WARNING_1MIN){
+                        AddLog(String.Format("Uptime restart in 1 min"));
+                        uptimeRestartState = AUTO_RESTART_STATES.WARNING_1MIN;
+                        if (AppSettings.Default.setDailyRestartWarning1min.Length > 0)
+                        {
+                            using (FLHookSocket flCmd = new FLHookSocket())
+                                flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning1min);
+                        }
                     }
                 }
-                else if (left < new TimeSpan(0, 5, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_5MINS)
+                else if (left < new TimeSpan(0, 5, 0))
                 {
-                    AddLog(String.Format("Uptime restart in {0} mins", 5));
-                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_5MINS;
-                    if (AppSettings.Default.setDailyRestartWarning5min.Length > 0)
-                    {
-                        using (FLHookSocket flCmd = new FLHookSocket())
-                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning5min);
+                    if(uptimeRestartState != AUTO_RESTART_STATES.WARNING_5MINS){
+                        AddLog(String.Format("Uptime restart in {0} mins", 5));
+                        uptimeRestartState = AUTO_RESTART_STATES.WARNING_5MINS;
+                        if (AppSettings.Default.setDailyRestartWarning5min.Length > 0)
+                        {
+                            using (FLHookSocket flCmd = new FLHookSocket())
+                                flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning5min);
+                        }
                     }
                 }
-                else if (left < new TimeSpan(0, 1, 0) && uptimeRestartState != AUTO_RESTART_STATES.WARNING_1MIN)
+                else if (left < new TimeSpan(0, 10, 0))
                 {
-                    AddLog(String.Format("Uptime restart in 1 min"));
-                    uptimeRestartState = AUTO_RESTART_STATES.WARNING_1MIN;
-                    if (AppSettings.Default.setDailyRestartWarning1min.Length > 0)
+                    if (uptimeRestartState != AUTO_RESTART_STATES.WARNING_10MINS)
                     {
-                        using (FLHookSocket flCmd = new FLHookSocket())
-                            flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning1min);
+                        AddLog(String.Format("Uptime restart in {0} mins", 10));
+                        uptimeRestartState = AUTO_RESTART_STATES.WARNING_10MINS;
+                        if (AppSettings.Default.setDailyRestartWarning10min.Length > 0)
+                        {
+                            using (FLHookSocket flCmd = new FLHookSocket())
+                                flCmd.CmdMsgU(AppSettings.Default.setUptimeRestartWarning10min);
+                        }
                     }
-                }
+                }    
                 else
                 {
                     dailyRestartState = AUTO_RESTART_STATES.IDLE;
