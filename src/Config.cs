@@ -31,9 +31,9 @@ namespace DSProcessManager
                 textBoxWarning1min.Text = AppSettings.Default.setDailyRestartWarning1min;
                 checkBox5.Checked = AppSettings.Default.setUptimeRestart;
                 numericUpDown11.Value = AppSettings.Default.setUptimeRestartHours;
-                textBox12.Text = AppSettings.Default.setDailyRestartWarning10min;
-                textBox11.Text = AppSettings.Default.setDailyRestartWarning5min;
-                textBox10.Text = AppSettings.Default.setDailyRestartWarning1min;
+                textBox12.Text = AppSettings.Default.setUptimeRestartWarning10min;
+                textBox11.Text = AppSettings.Default.setUptimeRestartWarning5min;
+                textBox10.Text = AppSettings.Default.setUptimeRestartWarning1min;
                 numericUpDown2.Value = AppSettings.Default.setRestartMaxMemory;
                 numericUpDown3.Value = AppSettings.Default.setRestartMaxLoad;
                 numericUpDown4.Value = AppSettings.Default.setStartupMaxReplyTime;
@@ -86,9 +86,9 @@ namespace DSProcessManager
                 AppSettings.Default.setDailyRestartWarning1min = textBoxWarning1min.Text;
                 AppSettings.Default.setUptimeRestart = checkBox5.Checked;
                 AppSettings.Default.setUptimeRestartHours = (int)numericUpDown11.Value;
-                AppSettings.Default.setDailyRestartWarning10min = textBox12.Text;
-                AppSettings.Default.setDailyRestartWarning5min = textBox11.Text;
-                AppSettings.Default.setDailyRestartWarning1min = textBox10.Text;
+                AppSettings.Default.setUptimeRestartWarning10min = textBox12.Text;
+                AppSettings.Default.setUptimeRestartWarning5min = textBox11.Text;
+                AppSettings.Default.setUptimeRestartWarning1min = textBox10.Text;
                 AppSettings.Default.setRestartMaxMemory = numericUpDown2.Value;
                 AppSettings.Default.setRestartMaxLoad = numericUpDown3.Value;
                 AppSettings.Default.setStartupMaxReplyTime = numericUpDown4.Value;
